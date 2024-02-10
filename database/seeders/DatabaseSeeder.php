@@ -20,5 +20,10 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        
+        $this->call(Shoreline_DirectionsSeeder::class);
+        $this->call(AreasSeeder::class);
+        $this->call(LocationsSeeder::class);
+        $this->call(ConditionSeeder::class);
     }
 }
