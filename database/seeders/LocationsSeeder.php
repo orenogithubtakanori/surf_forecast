@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use App\Models\Location;
 
 class LocationsSeeder extends Seeder
 {
@@ -16,11 +17,13 @@ class LocationsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('locations')->insert([
-            'name' => 'チサン',
-            'area_id' => 1,
-            'shoreline_direction_id' => 1,
-            'created_at' => new DateTime(),
-        ]);
+        //DB::table('locations')->insert([
+        //    'name' => 'チサン',
+        //    'area_id' => 1,
+        //    'shoreline_direction_id' => 1,
+        //    'created_at' => new DateTime(),
+        //]);
+        
+        Location::factory()->count(50)->create();
     }
 }
