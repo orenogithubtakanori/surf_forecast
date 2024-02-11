@@ -6,8 +6,9 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use App\Models\Condition;
 
-class ConditionSeeder extends Seeder
+class ConditionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
         $this->call(Shoreline_DirectionsSeeder::class);
         $this->call(AreasSeeder::class);
         $this->call(LocationsSeeder::class);
-        $this->call(ConditionSeeder::class);
+        $this->call(ConditionsSeeder::class);
+        $this->call(PostsSeeder::class);
+        $this->call(UsersSeeder::class);
+        $this->call(Surfing_LevelsSeeder::class);
+        $this->call(Wave_ScoresSeeder::class);
     }
 }
