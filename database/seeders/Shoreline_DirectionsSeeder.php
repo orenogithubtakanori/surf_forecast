@@ -18,63 +18,83 @@ class Shoreline_DirectionsSeeder extends Seeder
     public function run()
     {
         DB::table('shoreline_directions')->insert([
-            'direction' => '南南東',
+            'id' => 1,
+            'direction' => 'N',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '南東',
+            'id' => 2,
+            'direction' => 'NNE',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '東南東',
+            'id' => 3,
+            'direction' => 'NE',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '東',
+            'id' => 4,
+            'direction' => 'ENE',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '東北東',
+            'id' => 5,
+            'direction' => 'E',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '北東',
+            'id' => 6,
+            'direction' => 'ESE',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '北北東',
+            'id' => 7,
+            'direction' => 'SE',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '北',
+            'id' => 8,
+            'direction' => 'SSE',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '北北西',
+            'id' => 9,
+            'direction' => 'S',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '北西',
+            'id' => 10,
+            'direction' => 'SSW',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '西北西',
+            'id' => 11,
+            'direction' => 'SW',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '西',
+            'id' => 12,
+            'direction' => 'WSW',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '西南西',
+            'id' => 13,
+            'direction' => 'W',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '南西',
+            'id' => 14,
+            'direction' => 'WNW',
             'created_at' => new DateTime(),
         ]);
         DB::table('shoreline_directions')->insert([
-            'direction' => '南南西',
+            'id' => 15,
+            'direction' => 'NW',
+            'created_at' => new DateTime(),
+        ]);
+        DB::table('shoreline_directions')->insert([
+            'id' => 16,
+            'direction' => 'NNW',
             'created_at' => new DateTime(),
         ]);
     }

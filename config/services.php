@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'weatherapi' => [
+        'token' => env('WEATHERAPI_ACCESS_TOKEN')
+    ],
+
 ];
