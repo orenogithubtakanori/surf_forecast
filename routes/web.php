@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AreaController;
+use App\Http\Controllers\LocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+
+Route::get('/', function() {
+    return view('surf_forecast/index');
+});
+Route::get('/prefectures', [AreaController::class, 'prefecture']);
+Route::get('/areas/{area}', [AreaController::class, 'area']);
+Route::get('/locations/{location}', [LocationController::class, 'location']);
