@@ -62,20 +62,23 @@ class GetConditionsCommand extends Command
             $data = $response->getBody();
             $data = json_decode($data, true);
 
+            //dd($data['forecast']);
             $location = $data['location'];
 
-            foreach($data['forecast']['forecastday'][0]['hour'] as $conditionElement){
-                $condition = new condition();
-                $condition->latitude = $location['lat'];
-                $condition->longitude = $location['lon'];
-                $condition->date = $conditionElement['time'];
-                $condition->wave_height = $conditionElement['swell_ht_mt'];
-                $condition->wave_direction =  $conditionElement['swell_dir_16_point'];
-                $condition->wind_speed =  $conditionElement['wind_mph'];
-                $condition->wind_direction =  $conditionElement['wind_dir'];
-                $condition->temperature =  $conditionElement['temp_c'];
-                $condition->location_id = $key['location_id'];
-                $condition->save();
+            foreach($data['forecast']['forecastday'] as $Elements){
+                foreach($Elements['hour'] as $conditionElement){
+                    $condition = new condition();
+                    $condition->latitude = $location['lat'];
+                    $condition->longitude = $location['lon'];
+                    $condition->date = $conditionElement['time'];
+                    $condition->wave_height = $conditionElement['swell_ht_mt'];
+                    $condition->wave_direction =  $conditionElement['swell_dir_16_point'];
+                    $condition->wind_speed =  $conditionElement['wind_mph'];
+                    $condition->wind_direction =  $conditionElement['wind_dir'];
+                    $condition->temperature =  $conditionElement['temp_c'];
+                    $condition->location_id = $key['location_id'];
+                    $condition->save();
+                }
             }
         }
     }

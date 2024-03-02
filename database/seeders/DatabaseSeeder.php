@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->call(Surfing_LevelsSeeder::class);
         $this->call(Wave_ScoresSeeder::class);
+        $this->call(ScoresSeeder::class);
     }
 }
