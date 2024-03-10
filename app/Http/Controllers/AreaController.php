@@ -21,4 +21,8 @@ class AreaController extends Controller
             'location' => $location->get()
             ]);
     }
+    public function index()
+    {
+        return view('surf_forecast/index');
+    }
 }
