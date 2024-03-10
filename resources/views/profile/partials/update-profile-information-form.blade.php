@@ -47,6 +47,11 @@
             @endif
         </div>
 
+        <div>
+            <label for="surfing_start_date" class="block font-medium text-sm text-gray-700">サーフィンを始めた日</label>
+            <input id="surfing_start_date" type="date" name="surfing_start_date" value="{{ old('surfing_start_date', auth()->user()->surfing_start_date) }}" required autofocus autocomplete="off">
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

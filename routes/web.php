@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +17,13 @@ use App\Http\Controllers\LocationController;
 |
 */
 
-Route::get('/', function () {
+//Route::get('/', [AreaController::class, 'index'])->name('index');
+Route::get('/', [AreaController::class, 'index'])->name('index')->middleware('auth');
+
+//Route::get('/', function () {
     //return view('welcome');
-    return view('surf_forecast/index');
-});
+//    return view('surf_forecast/index');
+//});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -34,5 +38,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/prefectures', [AreaController::class, 'prefecture']);
 Route::get('/areas/{area}', [AreaController::class, 'area']);
 Route::get('/locations/{location}', [LocationController::class, 'location']);
+Route::get('/posts/create', [PostController::class, 'create']);
+Route::get('/posts/{post}', [PostController::class, 'show']);
+
+Route::post('/posts', [PostController::class, 'store']);
 
 require __DIR__.'/auth.php';
