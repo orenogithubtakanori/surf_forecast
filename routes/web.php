@@ -18,7 +18,7 @@ use App\Http\Controllers\PostController;
 */
 
 //Route::get('/', [AreaController::class, 'index'])->name('index');
-Route::get('/', [AreaController::class, 'index'])->name('index')->middleware('auth');
+//Route::get('/', [AreaController::class, 'index'])->name('index')->middleware('auth');
 
 //Route::get('/', function () {
     //return view('welcome');
@@ -35,12 +35,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/prefectures', [AreaController::class, 'prefecture']);
-Route::get('/areas/{area}', [AreaController::class, 'area']);
-Route::get('/locations/{location}', [LocationController::class, 'location']);
-Route::get('/posts/create', [PostController::class, 'create']);
-Route::get('/posts/{post}', [PostController::class, 'show']);
-
+Route::middleware(['web', 'guest'])->group(function() {
+    Route::get('/', [AreaController::class,'index'])->name('index');
+    Route::get('/prefectures', [AreaController::class, 'prefecture']);
+    Route::get('/areas/{area}', [AreaController::class, 'area']);
+    Route::get('/locations/{location}', [LocationController::class, 'location']);
+    Route::get('/posts/create', [PostController::class, 'create']);
+    Route::get('/posts/{post}', [PostController::class, 'show']);
+});
 Route::post('/posts', [PostController::class, 'store']);
 
 require __DIR__.'/auth.php';
