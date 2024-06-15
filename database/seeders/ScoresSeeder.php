@@ -68,11 +68,11 @@ class ScoresSeeder extends Seeder
         $surfingLevels = Surfing_Level::all();
 
         foreach($conditions as $condition){
-            foreach($surfingLevels as $surfingLevel){
-                $score = $this->getScore($condition->wave_height,$surfingLevel->id);
+            //foreach($surfingLevels as $surfingLevel){
+                //$score = $this->getScore($condition->wave_height,$surfingLevel->id);
                 Score::create([
-                    'score' => $score,
-                    'surfing_level_id' => $surfingLevel->id,
+                    //'score' => $score,
+                    //'surfing_level_id' => $surfingLevel->id,
                     'location_id' => $condition->location_id,
                     'datetime' => $condition->date,
                     'wave_height' => $condition->wave_height,
@@ -83,7 +83,7 @@ class ScoresSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-            }
+            //}
         }
     }
 }

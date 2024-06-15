@@ -14,9 +14,9 @@ class LocationController extends Controller
 {
     public function location(Location $location,Score $score,Surfing_Level $surfing_level,Post $post,User $user)
     {
-        return view('surf_forecast.locations')->with([
+        return view('surf_forecast.locations_test')->with([
             'location' => $location,
-            'score' => $score->whereBetween(DB::raw("SUBSTRING(datetime, 12, 10)"), ['06:00:00', '18:00:00'])->get(),
+            'score' => $score->getLatestScores(),
             'surfing_level' => $surfing_level->get(),
             'post' => $post->get(),
             'user' => $user->get(),
