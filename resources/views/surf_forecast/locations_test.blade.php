@@ -6,7 +6,12 @@
         <h2>予報データ</h2>
         <div class="over-table-box">
             <ul class = "over-table-box-inside">
-                <li><input class="date" type="date" name="surf_time"></li>
+                <li>
+                    <form method="GET"　action="{{route('your_route_name',['locationId' => $location->id])}}">
+                        <input class="date" type="date" id="date" name="surf_date" value="{{$surf_date}}">
+                        <button type="submit">検索</button>
+                    </form>
+                </li>
                 <li class="sunriseset">日出｜xx:xx</li>
                 <li class="sunriseset">日入｜xx:xx</li>
             </ul>
@@ -52,9 +57,9 @@
 h1{
     position: relative;
     left: 25px;
-    width: 100px;
+    width: 100%;
     padding: 10px;
-    text-align: center;
+    text-align: left;
 }
 h2{
     position: relative;
