@@ -39,7 +39,7 @@ Route::middleware(['web', 'guest'])->group(function() {
     Route::get('/', [AreaController::class,'index'])->name('index');
     Route::get('/prefectures', [AreaController::class, 'prefecture']);
     Route::get('/areas/{area}', [AreaController::class, 'area']);
-    Route::get('/locations/{location}', [LocationController::class, 'location']);
+    Route::get('/locations/{locationId}', [LocationController::class, 'location'])->name('your_route_name');
     Route::get('/posts/create', [PostController::class, 'create']);
     Route::get('/posts/{post}', [PostController::class, 'show']);
 });
