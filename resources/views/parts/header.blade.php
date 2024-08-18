@@ -42,7 +42,7 @@ header {
     z-index: 2;
     height: 100px;
     width: 100%;
-    background-color: #33CBB9;
+    background-color: #5F5F5F;
     display: flex; 
     box-shadow: 0px 2px 0px 2px rgba(0, 0, 0, 0.1);
     margin-top: 0px;

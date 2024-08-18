@@ -3,6 +3,14 @@
     <main>
         <div class="ajust"></div>
         <h1>{{$location->name}}</h1>
+        <div class="shoreline_direction">
+        <p>{{$location->name}}の海岸の向き</p>
+            @foreach($shoreline_direction as $shoreline_direction)
+                @if($shoreline_direction->id === $location->shoreline_direction_id)
+                    <p>{{$shoreline_direction->direction}}</p>
+                @endif
+            @endforeach
+        </div>
         <h2>予報データ</h2>
         <div class="over-table-box">
             <ul class = "over-table-box-inside">
@@ -17,24 +25,31 @@
             </ul>
         </div>
         <table border="1">
-            <tr>
-                <th>datetime</th>
-                <th>波高</th>
-                <th>波向</th>
-                <th>風向</th>
-                <th>風速</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th class = "t-column1">datetime</th>
+                    <th class = "t-column2">波高</th>
+                    <th class = "t-column3">波向</th>
+                    <th class = "t-column4">風速</th>
+                    <th class = "t-column5">風向</th>
+                </tr>
+            </thead>
+            <tbody>
             @foreach($score as $score)
                 @if($score->location_id === $location->id)
                     <tr>
-                        <td>{{$score->datetime}}</td>
-                        <td>{{$score->wave_height}}</td>
-                        <td>{{$score->wave_direction}}</td>
-                        <td>{{$score->wind_speed}}</td>
-                        <td>{{$score->wind_direction}}</td>
+                        <td class = "t-column1">{{$score->datetime}}</td>
+                        <td class = "t-column2">{{$score->wave_height}}</td>
+                        <td class = "t-column3">{{$score->wave_direction}}</td>
+                        <td class = "t-column4">{{$score->wind_speed}}</td>
+                        <td class = "t-column5">
+                            {{$score->wind_direction}}
+                            <div style="transform: rotate(150deg);">↑</div>
+                        </td>
                     </tr>    
                 @endif
             @endforeach
+            </tbody>
         </table>
         <h2>{{$location->name}}への投稿</h2>
             @foreach($post as $post)
@@ -70,7 +85,7 @@ h2{
     position: relative;
     left: 85px;
     height: 50px;
-    width: 400px;
+    width: 636px;
     background-color: gray;
     margin: 10px;
     display: flex;
@@ -92,9 +107,50 @@ ul{
     margin: 5px 10px;
     align-items: center;
 }
+th,td,tr{
+    text-align:center;
+}
 table{
     position: relative;
     left: 85px;
+    margin: 10px;
+}
+thead,tbody{
+    display: block;
+}
+tbody{
+    overflow-x:hidden;
+    overflow-y:scroll;
+    height:500px;
+}
+.t-column1{
+    width:200px;
+}
+.t-column2{
+    width:100px;
+}
+.t-column3{
+    width:100px;
+}
+.t-column4{
+    width:100px;
+}
+.t-column5{
+    width:100px;
+    text-align:center;
+    display:flex;    
+}
+.shoreline_direction{
+    display: flex;
+    flex-wrap: wrap; /* 要素が多い場合に折り返す */
+    gap: 10px;
+    margin-left: 5px;
+    padding: 5px 10px;
+    /*background-color: #f0f0f0; */
+    /*border: 1px solid #ddd; */
+    /*border-radius: 4px; */
+    position: relative;
+    left: 75px;
     margin: 10px;
 }
 </style>
