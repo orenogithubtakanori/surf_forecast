@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Location;
 use App\Models\Surfing_Level;
+use App\Models\ShorelineDirection;
 use App\Models\Score;
 use App\Models\Post;
 use App\Models\User;
@@ -13,7 +14,7 @@ use Carbon\Carbon;
 
 class LocationController extends Controller
 {
-    public function location(Location $location,Score $score,Surfing_Level $surfing_level,Post $post,User $user,Request $request,$locationId)
+    public function location(Location $location,Score $score,Surfing_Level $surfing_level,ShorelineDirection $shoreline_direction,Post $post,User $user,Request $request,$locationId)
     {
         $location=Location::find($locationId);
         $surf_date = $request->input('surf_date', Carbon::today()->toDateString());
@@ -48,6 +49,7 @@ class LocationController extends Controller
             'post' => $post->get(),
             'user' => $user->get(),
             'surf_date' => $surf_date,
+            'shoreline_direction' => $shoreline_direction->get(),
             ]);
     }
 }
