@@ -23,6 +23,14 @@ class LocationController extends Controller
             $scoreQuery->where("numt.datetime","like","{$surf_date}%");
         }
         $scores = $scoreQuery->where('numt.location_id',$locationId)->get();
+
+        $WaveArrowDegs = $scores->map(function($score){
+            return ShorelineDirection::where('direction',$score->wave_direction)->value('arrow_deg');
+        });
+
+        $WindArrowDegs = $scores->map(function($score){
+            return ShorelineDirection::where('direction',$score->wind_direction)->value('arrow_deg');
+        });
         /*
         DB::select(
             DB::raw("
@@ -50,6 +58,8 @@ class LocationController extends Controller
             'user' => $user->get(),
             'surf_date' => $surf_date,
             'shoreline_direction' => $shoreline_direction->get(),
+            'wave_arrow_degs' => $WaveArrowDegs,
+            'wind_arrow_degs' => $WindArrowDegs,
             ]);
     }
 }
