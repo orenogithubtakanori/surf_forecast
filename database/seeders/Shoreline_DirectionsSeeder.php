@@ -2,11 +2,14 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 use App\Models\Shoreline_Direction;
+
+Schema::disableForeignKeyConstraints();
 
 class Shoreline_DirectionsSeeder extends Seeder
 {

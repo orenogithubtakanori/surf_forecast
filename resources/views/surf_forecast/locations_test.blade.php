@@ -7,7 +7,8 @@
         <p>{{$location->name}}の海岸の向き</p>
             @foreach($shoreline_direction as $shoreline_direction)
                 @if($shoreline_direction->id === $location->shoreline_direction_id)
-                    <p>{{$shoreline_direction->direction}}</p>
+                    <p>{{$shoreline_direction->direction}} </p>
+                    <p sytle="transform: rotate({{$shoreline_direction->arrow_deg}}deg);">↑</p>
                 @endif
             @endforeach
         </div>
@@ -35,16 +36,23 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach($score as $score)
-                @if($score->location_id === $location->id)
+            @foreach($score as $index => $s)
+                @if($s->location_id === $location->id)
                     <tr>
-                        <td class = "t-column1">{{$score->datetime}}</td>
-                        <td class = "t-column2">{{$score->wave_height}}</td>
-                        <td class = "t-column3">{{$score->wave_direction}}</td>
-                        <td class = "t-column4">{{$score->wind_speed}}</td>
-                        <td class = "t-column5">
-                            {{$score->wind_direction}}
-                            <div style="transform: rotate(150deg);">↑</div>
+                        <td class = "t-column1">{{$s->datetime}}</td>
+                        <td class = "t-column2">{{$s->wave_height}}</td>
+                        <td class = "t-column3">
+                            {{$s->wave_direction}}
+                            @if(isset($wave_arrow_degs[$index]))
+                                <div style="transform: rotate({{$wave_arrow_degs[$index]}}deg);">↓</div>
+                            @endif
+                        </td>
+                        <td class = "t-column4">{{$s->wind_speed}}</td>
+                        <td class="t-column5">
+                            {{$s->wind_direction}}
+                            @if(isset($wind_arrow_degs[$index]))
+                                <div style="transform: rotate({{$wind_arrow_degs[$index]}}deg);">↓</div>
+                            @endif
                         </td>
                     </tr>    
                 @endif
@@ -131,6 +139,10 @@ tbody{
 }
 .t-column3{
     width:100px;
+    text-align:center;
+    display:flex;  
+    justify-content: center; /* Flexboxで内容を中央寄せ */
+    align-items: center;
 }
 .t-column4{
     width:100px;
@@ -139,6 +151,8 @@ tbody{
     width:100px;
     text-align:center;
     display:flex;    
+    justify-content: center; /* Flexboxで内容を中央寄せ */
+    align-items: center;
 }
 .shoreline_direction{
     display: flex;
