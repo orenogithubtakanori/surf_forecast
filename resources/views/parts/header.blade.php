@@ -42,7 +42,7 @@ header {
     z-index: 2;
     height: 100px;
     width: 100%;
-    background-color: #5F5F5F;
+    background-color: #FFFFFF;
     display: flex; 
     box-shadow: 0px 2px 0px 2px rgba(0, 0, 0, 0.1);
     margin-top: 0px;
@@ -58,9 +58,9 @@ header {
     left: 3%;
     transform: translateY(-50%);
     -webkit- transform: translateY(-10%) translateX(-50%);
-    font-size: 30px;
-    font-weight: bold;
-    color: #FFFFFF;
+    font-size: 25px;
+    /*font-weight: bold;*/
+    color: black;
     text-decoration: none;
     cursor: pointer;
 }
@@ -69,10 +69,11 @@ header {
     top: 50%;
     left: 85%;
     -webkit- transform: translateY(-50%) translateX(-50%);
+    color: gray;
 }
 .bottun{
     margin: 10px;
-    color: #FFFFFF;
+    color: gray;
     font-weight: 100;
 }
 </style>

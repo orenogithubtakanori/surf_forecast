@@ -94,15 +94,25 @@ h2{
     left: 85px;
     height: 50px;
     width: 636px;
-    background-color: gray;
+    background-color: #2a3543;
     margin: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 1px;
+}
+.date{
+    padding: 0px;
+    font-size: 14px;
 }
 .sunriseset{
     background-color: #FFFFFF;
     padding: 0px 5px;
+    color: #121212;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px; /* line-heightを要素の高さと同じにする */
+    text-align: center;
 }
 ul{
     padding-inline-start: 0px;
@@ -112,8 +122,10 @@ ul{
     position: relative;
     list-style-type: none;
     display: inline-block;
-    margin: 5px 10px;
+    margin: 10px 10px 5px 10px;
     align-items: center;
+    border-radius: 3px;
+    text-align:center;
 }
 th,td,tr{
     text-align:center;
@@ -122,6 +134,7 @@ table{
     position: relative;
     left: 85px;
     margin: 10px;
+    background-color: #fff;
 }
 thead,tbody{
     display: block;
@@ -166,5 +179,9 @@ tbody{
     position: relative;
     left: 75px;
     margin: 10px;
+}
+main{
+    color: black;
+    font-weight: normal;
 }
 </style>
