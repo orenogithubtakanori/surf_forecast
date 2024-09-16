@@ -10,6 +10,7 @@
     <style>
         body{
             margin: 0px; /* bodyの外側の余白を指定する */
+            background-color: #FFFFFF;
         }
     </style>
 </html>
