@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('app:get-conditions-command_test')->everyMinute()->between('2024-11-04 00:00', '2024-11-04 09:15');
     }
 
     /**
