@@ -20,7 +20,7 @@ class AreasSeeder extends Seeder
         DB::table('areas')->insert([
             'id' => 1,
             'name' => '湘南',
-            'prefecture_name' => '神奈川',
+            'prefecture_name' => '神奈川県（湘南・西湘）',
             'region_name' => '関東',
             'created_at' => new DateTime(),
         ]);
@@ -28,7 +28,7 @@ class AreasSeeder extends Seeder
         DB::table('areas')->insert([
             'id' => 2,
             'name' => '西湘',
-            'prefecture_name' => '神奈川',
+            'prefecture_name' => '神奈川県（湘南・西湘）',
             'region_name' => '関東',
             'created_at' => new DateTime(),
         ]);

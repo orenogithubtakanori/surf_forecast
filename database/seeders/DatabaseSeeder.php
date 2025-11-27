@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         
         $this->call(Shoreline_DirectionsSeeder::class);
-        $this->call(AreasSeeder::class);
+        $this->call(PrefecturesSeeder::class);
         $this->call(LocationsSeeder::class);
         $this->call(ConditionsSeeder::class);
         $this->call(PostsSeeder::class);

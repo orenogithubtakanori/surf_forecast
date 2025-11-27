@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('shoreline_directions', function (Blueprint $table) {
-            $table->unsignedBigInteger('arrow_deg');
-        });
+        // arrow_degカラムが既に存在する場合はスキップ
+        if (!Schema::hasColumn('shoreline_directions', 'arrow_deg')) {
+            Schema::table('shoreline_directions', function (Blueprint $table) {
+                $table->unsignedBigInteger('arrow_deg');
+            });
+        }
     }
 
     /**

@@ -11,6 +11,7 @@
         body{
             margin: 0px; /* bodyの外側の余白を指定する */
             background-color: #FFFFFF;
+            color:#444444;
         }
     </style>
 </html>
