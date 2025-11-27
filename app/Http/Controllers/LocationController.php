@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Location;
+use App\Models\Prefecture;
 use App\Models\Surfing_Level;
 use App\Models\ShorelineDirection;
 use App\Models\Score;
@@ -16,13 +17,18 @@ class LocationController extends Controller
 {
     public function location(Location $location,Score $score,Surfing_Level $surfing_level,ShorelineDirection $shoreline_direction,Post $post,User $user,Request $request,$locationId)
     {
-        $location=Location::find($locationId);
+        $location=Location::with('prefecture')->find($locationId);
         $surf_date = $request->input('surf_date', Carbon::today()->toDateString());
         $scoreQuery = Score::getLatestScores();
         if($surf_date){
-            $scoreQuery->where("numt.datetime","like","{$surf_date}%");
+            // 指定された日付から14日後までの範囲を取得
+            $startDate = Carbon::parse($surf_date)->startOfDay();
+            $endDate = Carbon::parse($surf_date)->addDays(13)->endOfDay();
+            $scoreQuery->whereBetween("numt.datetime", [$startDate, $endDate]);
         }
-        $scores = $scoreQuery->where('numt.location_id',$locationId)->get();
+        $scores = $scoreQuery->where('numt.location_id',$locationId)
+            ->orderBy('numt.datetime', 'asc')
+            ->get();
 
         $WaveArrowDegs = $scores->map(function($score){
             return ShorelineDirection::where('direction',$score->wave_direction)->value('arrow_deg');
@@ -50,6 +56,10 @@ class LocationController extends Controller
         "));
         */
 
+        // 検索用のデータを取得
+        $prefectures = Prefecture::orderBy('name')->get();
+        $allLocations = Location::with('prefecture')->get();
+
         return view('surf_forecast.locations_test')->with([
             'location' => $location,
             'score' => $scores,
@@ -60,6 +70,19 @@ class LocationController extends Controller
             'shoreline_direction' => $shoreline_direction->get(),
             'wave_arrow_degs' => $WaveArrowDegs,
             'wind_arrow_degs' => $WindArrowDegs,
+            'prefectures' => $prefectures,
+            'allLocations' => $allLocations,
             ]);
+    }
+
+    // AJAX用：都道府県に基づいてロケーションを取得
+    public function getLocationsByPrefecture(Request $request)
+    {
+        $prefectureId = $request->input('prefecture_id');
+        $locations = Location::where('prefecture_id', $prefectureId)
+                            ->orderBy('name')
+                            ->get();
+        
+        return response()->json($locations);
     }
 }

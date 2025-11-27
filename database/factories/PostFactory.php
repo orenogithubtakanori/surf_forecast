@@ -26,6 +26,7 @@ class PostFactory extends Factory
             'user_id' => $this->faker->randomDigitNotNull,
             'assesment_id' => $this->faker->numberBetween($min=4,$max=53),
             'surf_time'=> $this->faker->dateTimeThisYear,
+            'location_id' => $this->faker->numberBetween($min=1,$max=8), // locationsテーブルのID範囲
             'wave_score_id' => $this->faker->numberBetween($min=1,$max=5),
             'comment' => $this->faker->text
         ];

@@ -38,10 +38,12 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['web', 'guest'])->group(function() {
     Route::get('/', [AreaController::class,'index'])->name('index');
     Route::get('/prefectures', [AreaController::class, 'prefecture']);
-    Route::get('/areas/{area}', [AreaController::class, 'area']);
     Route::get('/locations/{locationId}', [LocationController::class, 'location'])->name('your_route_name');
     Route::get('/posts/create', [PostController::class, 'create']);
     Route::get('/posts/{post}', [PostController::class, 'show']);
+    
+    // AJAX用ルート
+    Route::get('/api/locations-by-prefecture', [LocationController::class, 'getLocationsByPrefecture']);
 });
 Route::post('/posts', [PostController::class, 'store']);
 

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->datetime('surf_time');
             $table->unsignedBigInteger('location_id');
             $table->unsignedBigInteger('wave_score_id');
-            $table->string('commnet');
+            $table->string('comment');
             $table->timestamps();
 
             // Foreign key constraint

@@ -44,7 +44,7 @@ header {
     width: 100%;
     background-color: #FFFFFF;
     display: flex; 
-    box-shadow: 0px 2px 0px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 0px 1px rgba(0, 0, 0, 0.1);
     margin-top: 0px;
     padding: 0px;
     /*position: relative;*/
@@ -60,7 +60,7 @@ header {
     -webkit- transform: translateY(-10%) translateX(-50%);
     font-size: 25px;
     /*font-weight: bold;*/
-    color: black;
+    color: #444444;
     text-decoration: none;
     cursor: pointer;
 }

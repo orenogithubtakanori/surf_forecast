@@ -13,11 +13,23 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('conditions', function (Blueprint $table) {
-            $table->unsignedBigInteger('location_id');
-            // Foreign key constraint
-            $table->foreign('location_id')->references('id')->on('locations');
-        });
+        // location_idカラムが既に存在する場合はスキップ
+        if (!Schema::hasColumn('conditions', 'location_id')) {
+            Schema::table('conditions', function (Blueprint $table) {
+                $table->unsignedBigInteger('location_id');
+                // Foreign key constraint
+                $table->foreign('location_id')->references('id')->on('locations');
+            });
+        } else {
+            // カラムは存在するが、外部キー制約がない場合は追加
+            try {
+                Schema::table('conditions', function (Blueprint $table) {
+                    $table->foreign('location_id')->references('id')->on('locations');
+                });
+            } catch (\Exception $e) {
+                // 外部キー制約が既に存在する場合はスキップ
+            }
+        }
     }
 
     /**

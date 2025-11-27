@@ -25,11 +25,12 @@ class ConditionsSeeder extends Seeder
             'wind_speed' => 1.0,
             'wind_direction' => '北東',
             'weather' => '晴れ',
-            'temperature' => 20,
-            'tide' => 100,
             'temperature' => 24.5,
+            'tide' => 100,
+            'latitude' => 35.31,
+            'longitude' => 139.54,
             'created_at' => new DateTime(),
-            
+            'updated_at' => new DateTime(),
         ]);
     }
 }
