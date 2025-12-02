@@ -5,7 +5,7 @@
         <div class="mx-auto max-w-7xl space-y-6 px-4 md:px-6">
             <div class="flex items-baseline justify-between">
                 <h1 class="text-2xl md:text-3xl font-bold">
-                    {{ $location->name }}の波情報（{{ \Carbon\Carbon::parse($surf_date)->format('Y年m月d日') }}）
+                    {{ $location->name }}({{ $location->city}})の波情報
                 </h1>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -132,12 +132,12 @@
                     <!-- チャート -->
                     <div id="chart-container" class="bg-white text-gray-900 rounded-lg border shadow-sm" style="display: none;">
                         <div class="flex flex-col space-y-1.5 p-6">
-                            <h3 class="font-semibold leading-none tracking-tight">波情報チャート</h3>
+                            <h3 class="font-semibold leading-none tracking-tight">14日間の波予報概況</h3>
                         </div>
                         <div class="p-6 pt-0 space-y-6">
                             <!-- 波高チャート -->
                             <div>
-                                <h4 class="font-medium text-sm text-gray-600 mb-2">波高・波向</h4>
+                                <h4 class="font-medium text-sm text-gray-600 mb-2">波高</h4>
                                 <div class="h-48">
                                     <canvas id="waveChart"></canvas>
                                 </div>
@@ -148,7 +148,7 @@
                     <!-- データテーブル -->
                     <div id="table-container" class="bg-white text-gray-900 rounded-lg border shadow-sm" style="display: none;">
                         <div class="flex flex-col space-y-1.5 p-6">
-                            <h3 class="font-semibold leading-none tracking-tight">詳細データ</h3>
+                            <h3 class="font-semibold leading-none tracking-tight">1時間ごとの波情報</h3>
                 </div>
                         <div style="padding: 10px;">
                             <div class="relative w-full overflow-auto">

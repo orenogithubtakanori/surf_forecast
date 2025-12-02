@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Prefecture;
 use App\Models\Location;
+use App\Models\Score;
+use Carbon\Carbon;
 
 class AreaController extends Controller
 {
@@ -20,8 +22,34 @@ class AreaController extends Controller
         }
         
         $locations = [];
+        $locationWaveData = [];
         if ($prefecture) {
             $locations = Location::where('prefecture_id', $prefecture->id)->get();
+            
+            // 各locationの今日の波高データを取得
+            $today = Carbon::today();
+            $todayStart = $today->copy()->startOfDay();
+            $todayEnd = $today->copy()->endOfDay();
+            
+            foreach ($locations as $location) {
+                $scoreQuery = Score::getLatestScores();
+                $scores = $scoreQuery->where('numt.location_id', $location->id)
+                    ->whereBetween('numt.datetime', [$todayStart, $todayEnd])
+                    ->orderBy('numt.datetime', 'asc')
+                    ->get();
+                
+                // 今日の波高と風速の最大値・最小値を計算
+                if ($scores->count() > 0) {
+                    $locationWaveData[$location->id] = [
+                        'max_wave_height' => round($scores->max('wave_height'), 1),
+                        'min_wave_height' => round($scores->min('wave_height'), 1),
+                        'max_wind_speed' => round($scores->max('wind_speed'), 1),
+                        'min_wind_speed' => round($scores->min('wind_speed'), 1),
+                    ];
+                } else {
+                    $locationWaveData[$location->id] = null;
+                }
+            }
         }
         
         // すべての都道府県リストを取得
@@ -34,7 +62,8 @@ class AreaController extends Controller
             'prefecture' => $prefecture,
             'locations' => $locations,
             'allPrefectures' => $allPrefectures,
-            'kanagawaDescription' => $kanagawaDescription
+            'kanagawaDescription' => $kanagawaDescription,
+            'locationWaveData' => $locationWaveData
             ]);
     }
     public function index()
