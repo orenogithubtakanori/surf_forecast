@@ -60,6 +60,20 @@ class LocationController extends Controller
         $prefectures = Prefecture::orderBy('name')->get();
         $allLocations = Location::with('prefecture')->get();
 
+        // パンくずリスト
+        $breadcrumbs = [
+            ['name' => 'TOP', 'url' => route('index')],
+        ];
+        if ($location && $location->prefecture) {
+            $breadcrumbs[] = [
+                'name' => $location->prefecture->name,
+                'url' => '/prefectures?prefecture_id=' . $location->prefecture->id
+            ];
+        }
+        if ($location) {
+            $breadcrumbs[] = ['name' => $location->name, 'url' => null];
+        }
+
         return view('surf_forecast.locations_test')->with([
             'location' => $location,
             'score' => $scores,
@@ -72,6 +86,7 @@ class LocationController extends Controller
             'wind_arrow_degs' => $WindArrowDegs,
             'prefectures' => $prefectures,
             'allLocations' => $allLocations,
+            'breadcrumbs' => $breadcrumbs,
             ]);
     }
 

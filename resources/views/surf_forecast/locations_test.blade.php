@@ -1,8 +1,8 @@
 @extends('layouts.custom')
 
 @section('content')
-    <div class="py-6 pt-24">
-        <div class="mx-auto max-w-7xl space-y-6 px-4 md:px-6">
+    <div class="pb-6 {{ isset($breadcrumbs) && count($breadcrumbs) > 0 ? 'pt-16' : 'pt-24' }}" style="background: linear-gradient(180deg, #eaf4ff 0%, #ffffff 40%);">
+        <div class="mx-auto max-w-7xl space-y-6 px-4 md:px-6" style="padding-top: 5px;">
             <div class="flex items-baseline justify-between">
                 <h1 class="text-2xl md:text-3xl font-bold">
                     {{ $location->name }}({{ $location->city}})の波情報

@@ -1,8 +1,17 @@
 @extends('layouts.custom')
 
 @section('content')
-    <div class="py-6 pt-24">
-        <div class="mx-auto max-w-7xl space-y-6 px-4 md:px-6">
+<style>
+    .wave-wind-container {
+        display: flex;
+        gap: 20px;
+    }
+    .wind-section {
+        margin-top: 0 !important;
+    }
+</style>
+    <div class="pb-6 {{ isset($breadcrumbs) && count($breadcrumbs) > 0 ? 'pt-16' : 'pt-24' }}" style="background: linear-gradient(180deg, #eaf4ff 0%, #ffffff 40%);">
+        <div class="mx-auto max-w-7xl space-y-6 px-4 md:px-6" style="padding-top: 5px;">
             <div class="flex items-baseline justify-between">
                 <h1 class="text-2xl md:text-3xl font-bold">
                 {{ $prefecture->name }}のサーフィン・波情報
@@ -12,7 +21,7 @@
                 <!-- サイドバー -->
                 <div class="lg:col-span-1 space-y-4">
                     <!-- 都道府県選択 -->
-                    <div class="bg-white text-gray-900 rounded-lg border shadow-sm">
+                    <!-- <div class="bg-white text-gray-900 rounded-lg border shadow-sm">
                         <div class="flex flex-col space-y-1.5 p-6">
                             <h3 class="font-semibold leading-none tracking-tight">都道府県選択</h3>
                         </div>
@@ -29,7 +38,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- 神奈川県のサーフィン事情について -->
                     @if($prefecture && $prefecture->name === '神奈川県（湘南・西湘）')
@@ -84,10 +93,7 @@
                         @elseif($prefecture)
                             <div class="space-y-4">
                                 <div class="flex items-center gap-3">
-                                    <h2 class="text-2xl font-bold">{{ $prefecture->name }}のサーフスポット</h2>
-                                    <span class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-gray-100 text-gray-700">
-                                        {{ count($locations) }}スポット
-                                    </span>
+                                    <h2 class="text-2l font-bold">{{ $prefecture->name }}のサーフスポット一覧</h2>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach($locations as $location)
@@ -102,6 +108,34 @@
                                                     {{ $location->city }}
                                                 </p>
                                                 @endif
+                                                
+                                                <!-- 地形と駐車場情報 -->
+                                                <div class="flex items-center gap-4 mt-2">
+                                                    @if($location->landscape)
+                                                    <div class="flex items-center gap-1.5">
+                                                        <svg class="h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                        </svg>
+                                                        <span class="text-xs text-gray-600">{{ $location->landscape }}</span>
+                                                    </div>
+                                                    @endif
+                                                    
+                                                    @if($location->parking !== null)
+                                                    <div class="flex items-center gap-1.5">
+                                                        @if($location->parking)
+                                                        <svg class="h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                        </svg>
+                                                        <span class="text-xs text-green-600 font-medium">駐車場あり</span>
+                                                        @else
+                                                        <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                        </svg>
+                                                        <span class="text-xs text-gray-500">駐車場なし</span>
+                                                        @endif
+                                                    </div>
+                                                    @endif
+                                                </div>
                                             </div>
                                             <div class="p-6 pt-0 space-y-3">
                                                 <!-- 今日の波高と風速 -->
@@ -142,7 +176,7 @@
                                                     $maxWindColor = $getWindSpeedColor($maxWindSpeed);
                                                     $minWindColor = $getWindSpeedColor($minWindSpeed);
                                                 @endphp
-                                                <div class="space-y-3 pt-2">
+                                                <div class="pt-2 wave-wind-container">
                                                     <!-- 波高 -->
                                                     <div class="space-y-2">
                                                         <div class="flex items-center gap-2">
@@ -154,13 +188,13 @@
                                                         <div class="flex items-baseline gap-3">
                                                             <div>
                                                                 <div class="text-xs text-gray-600 mb-1">最大</div>
-                                                                <div class="text-2xl font-bold" style="color: {{ $maxWaveColor }};">
+                                                                <div class="text-base font-bold" style="color: {{ $maxWaveColor }};">
                                                                     {{ $maxWaveHeight }}m
                                                                 </div>
                                                             </div>
                                                             <div>
                                                                 <div class="text-xs text-gray-600 mb-1">最低</div>
-                                                                <div class="text-2xl font-bold" style="color: {{ $minWaveColor }};">
+                                                                <div class="text-base font-bold" style="color: {{ $minWaveColor }};">
                                                                     {{ $minWaveHeight }}m
                                                                 </div>
                                                             </div>
@@ -168,7 +202,7 @@
                                                     </div>
                                                     
                                                     <!-- 風速 -->
-                                                    <div class="space-y-2">
+                                                    <div class="space-y-2 wind-section">
                                                         <div class="flex items-center gap-2">
                                                             <svg class="h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -178,13 +212,13 @@
                                                         <div class="flex items-baseline gap-3">
                                                             <div>
                                                                 <div class="text-xs text-gray-600 mb-1">最大</div>
-                                                                <div class="text-2xl font-bold" style="color: {{ $maxWindColor }};">
+                                                                <div class="text-base font-bold" style="color: {{ $maxWindColor }};">
                                                                     {{ $maxWindSpeed }}m/s
                                                                 </div>
                                                             </div>
                                                             <div>
                                                                 <div class="text-xs text-gray-600 mb-1">最低</div>
-                                                                <div class="text-2xl font-bold" style="color: {{ $minWindColor }};">
+                                                                <div class="text-base font-bold" style="color: {{ $minWindColor }};">
                                                                     {{ $minWindSpeed }}m/s
                                                                 </div>
                                                             </div>
