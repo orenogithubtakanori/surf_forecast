@@ -1,79 +1,74 @@
-<header class = 'head'>
-    <a href="/" class = 'head_name'>
-        My SurfForecast
-    </a>
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <!-- Responsive Settings Options -->
-        <div class="auth">
-        @if (Route::has('login'))
-            @auth
-            <div class="">
-                <div>{{ Auth::user()->name }}</div>
-                <div>{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="">
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-            @else
-                <a href="{{ route('login') }}" class="bottun">Log in</a>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="bottun">Register</a>
-                @endif
-            @endauth
-        @endif 
-        </div>
+<header class="site-header">
+    <div class="site-header__inner">
+        <a href="/" class="site-header__logo">surf forecast</a>
+        <nav class="site-header__nav">
+            <a href="{{ route('index') }}" class="site-header__link">サーフスポットを探す</a>
+            @if (Route::has('login'))
+                @auth
+                    <span class="site-header__user">{{ Auth::user()->name }}</span>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="site-header__link site-header__button" type="submit">Log Out</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="site-header__link">Log in</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="site-header__link">Register</a>
+                    @endif
+                @endauth
+            @endif
+        </nav>
     </div>
 </header>
 
 <style>
-header {
+.site-header {
     position: fixed;
-    z-index: 2;
-    height: 100px;
-    width: 100%;
-    background-color: #FFFFFF;
-    display: flex; 
-    box-shadow: 0px 1px 0px 1px rgba(0, 0, 0, 0.1);
-    margin-top: 0px;
-    padding: 0px;
-    /*position: relative;*/
-    /*display: flex;
-    justify-content: center;
-    align-items: center;*/
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    height: 64px;
+    background-color: #003057;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
-.head_name{
-    position: absolute;
-    top: 50%;
-    left: 3%;
-    transform: translateY(-50%);
-    -webkit- transform: translateY(-10%) translateX(-50%);
-    font-size: 25px;
-    /*font-weight: bold;*/
-    color: #444444;
+.site-header__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.site-header__logo {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
     text-decoration: none;
+}
+.site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    color: #ffffff;
+}
+.site-header__link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+}
+.site-header__link:hover {
+    color: #e2e8f0;
+}
+.site-header__user {
+    font-size: 13px;
+    color: #e2e8f0;
+}
+.site-header__button {
+    background: transparent;
+    border: none;
     cursor: pointer;
-}
-.auth{
-    position: absolute;
-    top: 50%;
-    left: 85%;
-    -webkit- transform: translateY(-50%) translateX(-50%);
-    color: gray;
-}
-.bottun{
-    margin: 10px;
-    color: gray;
-    font-weight: 100;
+    padding: 0;
 }
 </style>
