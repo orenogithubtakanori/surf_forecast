@@ -13,9 +13,9 @@
         <header class="border-b fixed top-0 left-0 right-0 z-50" style="background-color: #003057; z-index: 60;">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <a href="/" class="text-lg font-semibold text-white">surf forecast</a>
-                <nav class="flex items-center gap-6 text-sm text-white">
+                <!--<nav class="flex items-center gap-6 text-sm text-white">
                     <a href="{{ route('index') }}" class="hover:text-gray-200">サーフスポットを探す</a>
-                </nav>
+                </nav> -->
             </div>
         </header>
 
