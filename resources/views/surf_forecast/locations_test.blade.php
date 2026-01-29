@@ -2,20 +2,21 @@
 
 @section('content')
     <div class="pb-6 {{ isset($breadcrumbs) && count($breadcrumbs) > 0 ? 'pt-16' : 'pt-24' }}" style="background: linear-gradient(180deg, #eaf4ff 0%, #ffffff 40%);">
-        <div class="mx-auto max-w-7xl space-y-6 px-4 md:px-6" style="padding-top: 5px;">
+        <div class="mx-auto max-w-7xl space-y-6 px-4 md:px-6" style="padding-top: 10px;">
             <div class="flex items-baseline justify-between">
                 <h1 class="text-2xl md:text-3xl font-bold">
                     {{ $location->name }}({{ $location->city}})の波情報
                 </h1>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
                 <!-- サイドバー -->
                 <div id="sidebar" class="md:col-span-1 space-y-4">
                     <!-- 検索条件 -->
-                    <div class="bg-white text-gray-900 rounded-lg border shadow-sm">
-                        <div class="flex flex-col space-y-1.5 p-6">
-                            <h3 class="font-semibold leading-none tracking-tight">検索条件</h3>
-                        </div>
+                    <details id="search-conditions-card" class="bg-white text-gray-900 rounded-lg border shadow-sm">
+                        <summary class="flex cursor-pointer items-center justify-between p-4">
+                            <span class="text-sm font-regular leading-none tracking-tight">検索条件を変更する</span>
+                            <span class="text-xs text-gray-500">タップして開く</span>
+                        </summary>
                         <div class="p-6 pt-0 space-y-4">
                             <div class="space-y-2">
                                 <label class="block">サーフスポット検索</label>
@@ -23,7 +24,7 @@
                                 <!-- 都道府県選択 -->
                                 <div class="space-y-1">
                                     <label class="text-sm font-medium">都道府県</label>
-                                    <select id="prefecture-selector" onchange="loadLocations()" class="flex h-10 w-full rounded-md border border-input bg-input-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                    <select id="prefecture-selector" class="flex h-10 w-full rounded-md border border-input bg-input-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
                                         <option value="">都道府県を選択してください</option>
                                         @foreach($prefectures as $prefecture)
                                             <option value="{{ $prefecture->id }}" {{ $prefecture->id == $location->prefecture_id ? 'selected' : '' }}>
@@ -36,7 +37,7 @@
                                 <!-- サーフスポット選択 -->
                                 <div class="space-y-1">
                                     <label class="text-sm font-medium">サーフスポット</label>
-                                    <select id="location-selector" onchange="navigateToLocation(this.value)" class="flex h-10 w-full rounded-md border border-input bg-input-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                    <select id="location-selector" class="flex h-10 w-full rounded-md border border-input bg-input-background px-3 py-2 ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
                                         <option value="">サーフスポットを選択してください</option>
                                         @foreach($allLocations as $loc)
                                             @if($loc->prefecture_id == $location->prefecture_id)
@@ -68,23 +69,38 @@
                                 </div>
                                 <p id="date-display" class="text-sm text-muted-foreground"></p>
                             </div>
+                            <div>
+                                <button id="search-button" class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-gray-300 bg-white hover:bg-gray-50 h-9 px-3 text-sm font-medium w-full">
+                                    検索
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </details>
 
                     <!-- スポット情報 -->
                     <div id="spot-info-card" class="bg-white text-gray-900 rounded-lg border shadow-sm">
                         <div class="flex flex-col space-y-1.5 p-6">
-                            <h3 class="font-semibold leading-none tracking-tight flex items-center gap-2">
+                            <h2 class="font-semibold leading-none tracking-tight flex items-center gap-2">
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 </svg>
                                 スポット情報
-                            </h3>
+                            </h2>
                         </div>
                         <div class="p-6 pt-0 space-y-4">
                             <div>
-                                <p id="spot-name" class="font-semibold">{{ $location->name }}</p>
+                                <p id="spot-name" class="font-semibold">{{ $location->name }}（{{ $location->city }}）</p>
+                                @if($location->latitude && $location->longitude)
+                                    <a
+                                        href="https://www.google.com/maps/search/?api=1&query={{ $location->latitude }},{{ $location->longitude }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="text-xs text-blue-600 hover:text-blue-700"
+                                    >
+                                        Googleマップで場所を見る →
+                                    </a>
+                                @endif
                             </div>
                             
                             <div class="space-y-3">
@@ -117,6 +133,29 @@
                                          </div>
                                     </div>
                                 </div>
+                                @if($location->landscape)
+                                <div class="flex items-center gap-1.5">
+                                    <svg class="h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <span class="text-xs text-gray-600">{{ $location->landscape }}</span>
+                                </div>
+                                @endif
+                                @if($location->parking !== null)
+                                <div class="flex items-center gap-1.5">
+                                    @if($location->parking)
+                                    <svg class="h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    <span class="text-xs text-green-600 font-medium">駐車場あり</span>
+                                    @else
+                                    <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                    <span class="text-xs text-gray-500">駐車場なし</span>
+                                    @endif
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -124,33 +163,33 @@
                 </div>
 
                 <!-- メインコンテンツ -->
-                <div class="md:col-span-3 space-y-6">
-                    <div id="loading" class="text-center py-8">
-                        <p>データを読み込み中...</p>
-                    </div>
+            
+                <div id="loading" class="text-center py-8">
+                    <p>データを読み込み中...</p>
+                </div>
 
-                    <!-- チャート -->
-                    <div id="chart-container" class="bg-white text-gray-900 rounded-lg border shadow-sm" style="display: none;">
-                        <div class="flex flex-col space-y-1.5 p-6">
-                            <h3 class="font-semibold leading-none tracking-tight">14日間の波予報概況</h3>
-                        </div>
-                        <div class="p-6 pt-0 space-y-6">
-                            <!-- 波高チャート -->
-                            <div>
-                                <h4 class="font-medium text-sm text-gray-600 mb-2">波高</h4>
-                                <div class="h-48">
-                                    <canvas id="waveChart"></canvas>
-                                </div>
+                <!-- チャート -->
+                <div id="chart-container" class="bg-white text-gray-900 rounded-lg border shadow-sm" style="display: none;">
+                    <div class="flex flex-col space-y-1.5 p-6">
+                        <h2 class="font-semibold leading-none tracking-tight">14日間の波予報概況</h2>
+                    </div>
+                    <div class="p-6 pt-0 space-y-6">
+                        <!-- 波高チャート -->
+                        <div>
+                            <h4 class="font-medium text-sm text-gray-600 mb-2">平均波高</h4>
+                            <div class="h-48">
+                                <canvas id="waveChart"></canvas>
                             </div>
                         </div>
                     </div>
-
-                    <!-- データテーブル -->
-                    <div id="table-container" class="bg-white text-gray-900 rounded-lg border shadow-sm" style="display: none;">
-                        <div class="flex flex-col space-y-1.5 p-6">
-                            <h3 class="font-semibold leading-none tracking-tight">1時間ごとの波情報</h3>
                 </div>
-                        <div style="padding: 10px;">
+
+                <!-- データテーブル -->
+                <div id="table-container" class="bg-white text-gray-900 rounded-lg border shadow-sm" style="display: none;">
+                    <div class="flex flex-col space-y-1.5 p-6">
+                        <h2 class="font-semibold leading-none tracking-tight">1時間ごとの波情報</h2>
+            
+                        <div>
                             <div class="relative w-full overflow-auto">
                 @php
                     // 海岸の向き情報
@@ -203,10 +242,10 @@
                                                     $borderStyle = $isNewDay ? 'border-top: 3px solid #6b7280;' : '';
                                                 @endphp
                                                 <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted" style="{{ $borderStyle }}">
-                                                    <td class="align-middle text-center" style="width: 80px; min-width: 80px; padding: 5px;">{{\Carbon\Carbon::parse($s->datetime)->format('n/j H時')}}</td>
+                                                    <td class="align-middle text-center" style="width: 80px; min-width: 80px; padding: 4px;">{{\Carbon\Carbon::parse($s->datetime)->format('n/j H時')}}</td>
                                                     
                                                     <!-- 波高・波向を同じカラムに縦に表示 -->
-                                                    <td class="align-middle text-center" style="width: 80px; min-width: 80px; padding: 5px;">
+                                                    <td class="align-middle text-center" style="width: 80px; min-width: 80px; padding: 4px;">
                                                         <div class="flex flex-col items-center gap-1">
                                                             <div>{{$s->wave_height}}m</div>
                                                             <div class="flex items-center gap-1">
@@ -229,7 +268,7 @@
                                                     </td>
                                                     
                                                     <!-- 風速・風向を同じカラムに縦に表示 -->
-                                                    <td class="align-middle text-center" style="width: 80px; min-width: 80px; padding: 5px;">
+                                                    <td class="align-middle text-center" style="width: 80px; min-width: 80px; padding: 4px;">
                                                         <div class="flex flex-col items-center gap-1">
                                                             <div>{{$s->wind_speed}}m/s</div>
                                                             <div class="flex items-center gap-1">
@@ -252,7 +291,7 @@
                                                     </td>
                                                     
                                                     <!-- 評価 -->
-                                                    <td class="align-middle text-center" style="width: 80px; min-width: 80px; padding: 5px;">
+                                                    <td class="align-middle text-center" style="width: 80px; min-width: 80px; padding: 4px;">
                                                         <div class="condition-tag-container" style="display: flex; justify-content: center; align-items: center;">
                                                             @php
                                                                 $cond = $judgeCondition($windAngle, $coast_deg);
@@ -304,16 +343,40 @@
 
         // 初期化
         document.addEventListener('DOMContentLoaded', function() {
+            const searchConditionsCard = document.getElementById('search-conditions-card');
+            if (searchConditionsCard) {
+                const updateSearchCardOpenState = () => {
+                    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+                    searchConditionsCard.open = isDesktop;
+                };
+                updateSearchCardOpenState();
+                window.matchMedia('(min-width: 768px)').addEventListener('change', updateSearchCardOpenState);
+            }
+
             updateDateDisplay();
             updateCharts();
             
             // イベントリスナー
-            document.getElementById('date-selector').addEventListener('change', function() {
-                updateDateDisplay();
-                navigateToSelectedDate();
-            });
+            const prefectureSelector = document.getElementById('prefecture-selector');
+            const locationSelector = document.getElementById('location-selector');
+            const searchButton = document.getElementById('search-button');
+            const dateSelector = document.getElementById('date-selector');
+
+            prefectureSelector.addEventListener('change', loadLocations);
+            dateSelector.addEventListener('change', updateDateDisplay);
             document.getElementById('prev-day').addEventListener('click', changeDateBy(-1));
             document.getElementById('next-day').addEventListener('click', changeDateBy(1));
+            searchButton.addEventListener('click', () => {
+                const selectedLocationId = locationSelector.value || '{{ $location->id }}';
+                if (!selectedLocationId) {
+                    return;
+                }
+                const currentUrl = new URL(window.location.href);
+                const newUrl = new URL(currentUrl.toString());
+                newUrl.pathname = currentUrl.pathname.replace(/\/\d+$/, '/' + selectedLocationId);
+                newUrl.searchParams.set('surf_date', dateSelector.value);
+                window.location.href = newUrl.toString();
+            });
         });
 
         function updateDateDisplay() {
@@ -335,16 +398,7 @@
                 currentDate.setDate(currentDate.getDate() + days);
                 dateInput.value = currentDate.toISOString().split('T')[0];
                 updateDateDisplay();
-                navigateToSelectedDate();
             };
-        }
-
-        function navigateToSelectedDate(){
-            const dateInput = document.getElementById('date-selector');
-            const url = new URL(window.location.href);
-            url.searchParams.set('surf_date', dateInput.value);
-            // 保持されている他のクエリは維持して遷移
-            window.location.href = url.toString();
         }
 
 
@@ -493,15 +547,6 @@
                         });
                     })
                     .catch(error => console.error('Error loading locations:', error));
-            }
-        }
-
-        // サーフスポット選択時のページ遷移
-        function navigateToLocation(locationId) {
-            if (locationId && locationId !== '{{ $location->id }}') {
-                const currentUrl = new URL(window.location.href);
-                const newUrl = currentUrl.pathname.replace(/\/\d+$/, '/' + locationId);
-                window.location.href = newUrl;
             }
         }
 

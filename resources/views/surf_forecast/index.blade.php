@@ -9,163 +9,72 @@
     $selectedPrefectureId = $defaultPrefectureId ?? $kanagawaId;
 @endphp
 <style>
-    .top-page {
-        padding: 140px 20px 80px;
-        background: linear-gradient(180deg, #eaf4ff 0%, #ffffff 40%);
-        min-height: 100vh;
-        font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Hiragino Kaku Gothic Pro', 'Yu Gothic', 'Meiryo', sans-serif;
-    }
-    .top-container {
-        max-width: 1040px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 56px;
-    }
-    .hero-title {
-        font-size: 24px;
-        font-weight: 700;
-        color: #0b2f4a;
-        margin-bottom: 20px;
-    }
-    .search-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 28px;
-        box-shadow: 0 16px 40px rgba(15, 60, 110, 0.12);
-        display: grid;
-        gap: 20px;
-    }
-    .search-row {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 16px;
-        align-items: end;
-    }
-    .field-group label {
-        font-size: 13px;
-        color: #4a6072;
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-    }
-    .field-group select {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #c8d7e6;
-        border-radius: 10px;
-        font-size: 14px;
-        background: #f9fbff;
-    }
-    .primary-button {
-        padding: 12px 20px;
-        border-radius: 10px;
-        border: none;
-        background: #0b5cad;
+    #search-button {
+        background-color: #0b5cad;
         color: #ffffff;
-        font-weight: 700;
-        cursor: pointer;
-        transition: background 0.2s ease;
+        border-color: #0b5cad;
     }
-    .primary-button:hover {
-        background: #094b8f;
-    }
-    .section-card {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 28px;
-        box-shadow: 0 12px 30px rgba(15, 60, 110, 0.08);
-    }
-    .section-title {
-        font-size: 20px;
-        font-weight: 700;
-        color: #0b2f4a;
-        margin-bottom: 18px;
-    }
-    .prefecture-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 16px;
-    }
-    .prefecture-card {
-        border: 1px solid #d4e0ec;
-        border-radius: 14px;
-        padding: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        text-decoration: none;
-        color: #0b2f4a;
-        background: #f7fbff;
-        font-weight: 600;
-    }
-    .prefecture-card.is-disabled {
-        background: #f4f4f4;
-        color: #9aa6b2;
-        border-style: dashed;
-        cursor: default;
-    }
-    .about-text {
-        font-size: 15px;
-        line-height: 1.9;
-        color: #3a4b5c;
-    }
-    @media (max-width: 640px) {
-        .top-page {
-            padding: 120px 16px 60px;
-        }
-        .search-card,
-        .section-card {
-            padding: 20px;
-        }
+    #search-button:hover {
+        background-color: #094b8f;
+        border-color: #094b8f;
     }
 </style>
-
-<main class="top-page">
-    <div class="top-container">
+<main class="min-h-screen bg-gradient-to-b from-sky-100 via-white to-white pt-24 pb-16 font-sans text-slate-900" style="background: linear-gradient(180deg, #eaf4ff 0%, #ffffff 40%);">
+    <div class="mx-auto flex max-w-4xl flex-col gap-3 px-4 sm:px-6 lg:px-8">
+        <section class="bg-white text-gray-900 rounded-lg border shadow-sm">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <h2 class="font-semibold leading-none tracking-tight">Surf Forecastとは</h2>
+            </div>
+            <div class="p-6 pt-0">
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    Surf Forecastは神奈川県を中心に日本の各地のサーフスポット情報や波情報・波予報を提供するwebサイトです。
+                    向こう14日間の波高・風速等の気象データをサーフスポットごとに毎日更新中。過去分のデータも参照することができます。
+                </p>
+            </div>
+        </section>   
         <section>
-            <h2 class="hero-title">サーフスポットの波情報・波予報を確認する</h2>
-            <div class="search-card">
-                <div class="search-row">
-                    <div class="field-group">
-                        <label for="prefecture-select">都道府県</label>
-                        <select id="prefecture-select">
+            <div class="bg-white text-gray-900 rounded-lg border shadow-sm">
+                <div class="flex flex-col space-y-1.5 p-6">
+                    <h2 class="font-semibold leading-none tracking-tight">サーフスポットの波情報・波予報を確認する</h2>
+                </div>
+                <div class="p-6 pt-0">
+                    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:items-end">
+                        <div class="space-y-2">
+                            <label for="prefecture-select" class="text-sm font-medium">都道府県</label>
+                            <select id="prefecture-select" class="flex h-10 w-full rounded-md border border-input bg-input-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                             @foreach($allPrefectures as $prefecture)
                                 <option value="{{ $prefecture->id }}" {{ $prefecture->id === $selectedPrefectureId ? 'selected' : '' }}>
                                     {{ $prefecture->name }}
                                 </option>
                             @endforeach
                         </select>
-                    </div>
-                    <div class="field-group">
-                        <label for="location-select">スポット</label>
-                        <select id="location-select">
+                        </div>
+                        <div class="space-y-2">
+                            <label for="location-select" class="text-sm font-medium">スポット</label>
+                            <select id="location-select" class="flex h-10 w-full rounded-md border border-input bg-input-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                             @forelse($locations as $location)
                                 <option value="{{ $location->id }}">{{ $location->name }}</option>
                             @empty
                                 <option value="">スポットがありません</option>
                             @endforelse
                         </select>
+                        </div>
+                        <button class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md border border-gray-300 bg-white hover:bg-gray-50 px-3 text-sm font-medium" id="search-button" type="button">検索</button>
                     </div>
-                    <button class="primary-button" id="search-button" type="button">検索</button>
                 </div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title">サーフスポットを都道府県から探す</h2>
-            <div class="prefecture-grid">
-                <a class="prefecture-card" href="/prefectures?prefecture_id={{ $selectedPrefectureId }}">神奈川県</a>
-                <div class="prefecture-card is-disabled">千葉県（準備中）</div>
+        <section class="bg-white text-gray-900 rounded-lg border shadow-sm">
+            <div class="flex flex-col space-y-1.5 p-6">
+                <h2 class="font-semibold leading-none tracking-tight">サーフスポットを都道府県から探す</h2>
             </div>
-        </section>
-
-        <section class="section-card">
-            <h2 class="section-title">Surf Forecastとは</h2>
-            <p class="about-text">
-                Surf Forecastは神奈川県を中心に日本の各地のサーフスポット情報や波情報・波予報を提供するwebサイトです。
-                向こう14日間の波高・風速等の気象データをサーフスポットごとに毎日更新中。過去分のデータも参照することができます。
-            </p>
+            <div class="p-6 pt-0">
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <a class="flex items-center justify-between rounded-md border border-gray-300 bg-white hover:bg-gray-50 h-10 px-3 text-sm font-medium" href="/prefectures?prefecture_id={{ $selectedPrefectureId }}">神奈川県</a>
+                    <div class="flex items-center justify-between rounded-md border border-dashed border-gray-300 bg-white h-10 px-3 text-sm font-medium text-gray-400">千葉県（準備中）</div>
+                </div>
+            </div>
         </section>
     </div>
 </main>

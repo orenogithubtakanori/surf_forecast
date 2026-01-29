@@ -11,13 +11,13 @@
     }
 </style>
     <div class="pb-6 {{ isset($breadcrumbs) && count($breadcrumbs) > 0 ? 'pt-16' : 'pt-24' }}" style="background: linear-gradient(180deg, #eaf4ff 0%, #ffffff 40%);">
-        <div class="mx-auto max-w-7xl space-y-6 px-4 md:px-6" style="padding-top: 5px;">
+        <div class="mx-auto max-w-7xl space-y-6 px-4 md:px-6" style="padding-top: 10px;">
             <div class="flex items-baseline justify-between">
                 <h1 class="text-2xl md:text-3xl font-bold">
                 {{ $prefecture->name }}のサーフィン・波情報
                 </h1>
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
                 <!-- サイドバー -->
                 <div class="lg:col-span-1 space-y-4">
                     <!-- 都道府県選択 -->
@@ -92,10 +92,10 @@
                             </div>
                         @elseif($prefecture)
                             <div class="space-y-4">
-                                <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-2">
                                     <h2 class="text-2l font-bold">{{ $prefecture->name }}のサーフスポット一覧</h2>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                     @foreach($locations as $location)
                                         <div class="bg-white text-gray-900 rounded-lg border shadow-sm cursor-pointer hover:shadow-lg transition-shadow duration-200 hover:border-blue-500" 
                                              onclick="window.location.href='/locations/{{ $location->id }}'">
@@ -176,16 +176,16 @@
                                                     $maxWindColor = $getWindSpeedColor($maxWindSpeed);
                                                     $minWindColor = $getWindSpeedColor($minWindSpeed);
                                                 @endphp
-                                                <div class="pt-2 wave-wind-container">
+                                                <div class="pt-2 wave-wind-container justify-center text-center">
                                                     <!-- 波高 -->
                                                     <div class="space-y-2">
-                                                        <div class="flex items-center gap-2">
+                                                        <div class="flex items-center justify-center gap-2">
                                                             <svg class="h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                                                             </svg>
                                                             <span class="text-sm font-medium">今日の波高</span>
                                                         </div>
-                                                        <div class="flex items-baseline gap-3">
+                                                        <div class="flex items-baseline justify-center gap-6">
                                                             <div>
                                                                 <div class="text-xs text-gray-600 mb-1">最大</div>
                                                                 <div class="text-base font-bold" style="color: {{ $maxWaveColor }};">
@@ -203,13 +203,13 @@
                                                     
                                                     <!-- 風速 -->
                                                     <div class="space-y-2 wind-section">
-                                                        <div class="flex items-center gap-2">
+                                                        <div class="flex items-center justify-center gap-2">
                                                             <svg class="h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                                             </svg>
                                                             <span class="text-sm font-medium">今日の風速</span>
                                                         </div>
-                                                        <div class="flex items-baseline gap-3">
+                                                        <div class="flex items-baseline justify-center gap-6">
                                                             <div>
                                                                 <div class="text-xs text-gray-600 mb-1">最大</div>
                                                                 <div class="text-base font-bold" style="color: {{ $maxWindColor }};">
